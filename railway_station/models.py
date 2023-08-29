@@ -94,8 +94,8 @@ class Trip(models.Model):
     arrival_time = models.DateTimeField(blank=False, null=False)
 
     def clean(self):
-        if self.arrival_time < self.departure_time:
-            return ValidationError(
+        if self.arrival_time <= self.departure_time:
+            raise ValidationError(
                 "Arrival time cannot be earlier than departure time!"
             )
 
@@ -160,8 +160,8 @@ class Ticket(models.Model):
 
     def __str__(self) -> str:
         return (
-            f"{self.trip.route.source} - {self.trip.route.destination} "
-            f"{self.trip.departure_time} - {self.trip.arrival_time} "
+            f"{self.trip.route.source} - {self.trip.route.destination}, "
+            f"{self.trip.departure_time} - {self.trip.arrival_time}, "
             f"(railcar: {self.railcar}, seat: {self.seat})"
         )
 
