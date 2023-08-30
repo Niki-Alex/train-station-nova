@@ -8,7 +8,6 @@ from railway_station.models import (
     Crew,
     Trip,
     Order,
-    Ticket,
 )
 
 from railway_station.serializers import (
@@ -20,8 +19,9 @@ from railway_station.serializers import (
     TrainListSerializer,
     CrewSerializer,
     TripSerializer,
+    TripListSerializer,
     OrderSerializer,
-    TicketSerializer, TripListSerializer,
+    OrderListSerializer,
 )
 
 
@@ -81,5 +81,16 @@ class TripViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
+    queryset = Order.objects.prefetch_related(
+        "tickets__trip__route", "tickets__trip__train"
+    )
     serializer_class = OrderSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return OrderListSerializer
+
+        return OrderSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
