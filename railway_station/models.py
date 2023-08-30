@@ -5,6 +5,11 @@ from django.db import models
 from django.utils import timezone
 
 
+def validate_departure_time(value):
+    if value < timezone.now():
+        raise ValidationError("Departure time should be in the future!")
+
+
 class Station(models.Model):
     name = models.CharField(max_length=255, unique=True)
     latitude = models.FloatField()
@@ -89,7 +94,7 @@ class Trip(models.Model):
         Train, on_delete=models.CASCADE, related_name="trips"
     )
     departure_time = models.DateTimeField(
-        blank=False, null=False, validators=[MinValueValidator(timezone.now())]
+        blank=False, null=False, validators=[validate_departure_time]
     )
     arrival_time = models.DateTimeField(blank=False, null=False)
 
