@@ -43,6 +43,10 @@ class Route(models.Model):
             force_insert, force_update, using, update_fields
         )
 
+    @property
+    def full_route(self) -> str:
+        return f"{self.source} - {self.destination}"
+
     def __str__(self) -> str:
         return f"Source: {self.source}, destination: {self.destination}"
 
@@ -68,6 +72,12 @@ class Train(models.Model):
     @property
     def capacity(self) -> int:
         return self.railcar_num * self.seats_in_railcar
+
+    @property
+    def important_information(self) -> str:
+        return (f"{self.name}, type: {self.train_type}, "
+                f"railcar_num: {self.railcar_num}, "
+                f"seats_in_railcar: {self.seats_in_railcar}")
 
     class Meta:
         ordering = ["name"]

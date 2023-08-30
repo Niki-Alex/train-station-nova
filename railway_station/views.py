@@ -14,12 +14,14 @@ from railway_station.models import (
 from railway_station.serializers import (
     StationSerializer,
     RouteSerializer,
+    RouteListSerializer,
     TrainTypeSerializer,
     TrainSerializer,
+    TrainListSerializer,
     CrewSerializer,
     TripSerializer,
     OrderSerializer,
-    TicketSerializer,
+    TicketSerializer, TripListSerializer,
 )
 
 
@@ -29,8 +31,14 @@ class StationViewSet(viewsets.ModelViewSet):
 
 
 class RouteViewSet(viewsets.ModelViewSet):
-    queryset = Route.objects.all()
+    queryset = Route.objects.all().select_related("source", "destination")
     serializer_class = RouteSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return RouteListSerializer
+
+        return RouteSerializer
 
 
 class TrainTypeViewSet(viewsets.ModelViewSet):
@@ -39,8 +47,14 @@ class TrainTypeViewSet(viewsets.ModelViewSet):
 
 
 class TrainViewSet(viewsets.ModelViewSet):
-    queryset = Train.objects.all()
+    queryset = Train.objects.all().select_related("train_type")
     serializer_class = TrainSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return TrainListSerializer
+
+        return TrainSerializer
 
 
 class CrewViewSet(viewsets.ModelViewSet):
@@ -52,10 +66,18 @@ class TripViewSet(viewsets.ModelViewSet):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
 
+    def get_queryset(self):
+        queryset = self.queryset
+        if self.action == "list":
+            queryset.select_related("route", "train").prefetch_related("crew")
 
-class TicketViewSet(viewsets.ModelViewSet):
-    queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
+        return queryset
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return TripListSerializer
+
+        return TripSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):
