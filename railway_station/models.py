@@ -15,6 +15,10 @@ class Station(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
 
+    @property
+    def name_by_coordinate(self) -> str:
+        return f"{self.name} ({self.latitude} - {self.longitude})"
+
     def __str__(self) -> str:
         return self.name
 

@@ -25,13 +25,14 @@ class RouteSerializer(serializers.ModelSerializer):
         fields = ("id", "source", "destination", "distance")
 
 
-class RouteListSerializer(serializers.ModelSerializer):
+class RouteListSerializer(RouteSerializer):
     source = serializers.CharField(source="source.name", read_only=True)
     destination = serializers.CharField(source="destination.name", read_only=True)
 
-    class Meta:
-        model = Route
-        fields = ("id", "source", "destination", "distance")
+
+class RouteDetailSerializer(RouteSerializer):
+    source = serializers.SlugRelatedField(many=False, read_only=True, slug_field="name_by_coordinate")
+    destination = serializers.SlugRelatedField(many=False, read_only=True, slug_field="name_by_coordinate")
 
 
 class TrainTypeSerializer(serializers.ModelSerializer):
@@ -70,10 +71,19 @@ class TripListSerializer(serializers.ModelSerializer):
     crew = serializers.SlugRelatedField(many=True, read_only=True, slug_field="full_name")
     route = serializers.SlugRelatedField(many=False, read_only=True, slug_field="full_route")
     train = serializers.SlugRelatedField(many=False, read_only=True, slug_field="important_information")
+    departure_time = serializers.DateTimeField(format="%Y-%m-%d, %H:%M")
+    arrival_time = serializers.DateTimeField(format="%Y-%m-%d, %H:%M")
 
     class Meta:
         model = Trip
         fields = ("id", "crew", "route", "train", "departure_time", "arrival_time")
+
+
+class TripDetailSerializer(TripListSerializer):
+    route = RouteListSerializer(many=False, read_only=True)
+    train = TrainSerializer(many=False, read_only=True)
+    departure_time = serializers.DateTimeField(read_only=True)
+    arrival_time = serializers.DateTimeField(read_only=True)
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -110,3 +120,4 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderListSerializer(OrderSerializer):
     tickets = TicketListSerializer(many=True, read_only=True)
+    created_at = serializers.DateTimeField(format="%Y-%m-%d, %H:%M", read_only=True)

@@ -14,12 +14,14 @@ from railway_station.serializers import (
     StationSerializer,
     RouteSerializer,
     RouteListSerializer,
+    RouteDetailSerializer,
     TrainTypeSerializer,
     TrainSerializer,
     TrainListSerializer,
     CrewSerializer,
     TripSerializer,
     TripListSerializer,
+    TripDetailSerializer,
     OrderSerializer,
     OrderListSerializer,
 )
@@ -38,6 +40,9 @@ class RouteViewSet(viewsets.ModelViewSet):
         if self.action == "list":
             return RouteListSerializer
 
+        if self.action == "retrieve":
+            return RouteDetailSerializer
+
         return RouteSerializer
 
 
@@ -51,7 +56,7 @@ class TrainViewSet(viewsets.ModelViewSet):
     serializer_class = TrainSerializer
 
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.action in ["list", "retrieve"]:
             return TrainListSerializer
 
         return TrainSerializer
@@ -68,7 +73,7 @@ class TripViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        if self.action == "list":
+        if self.action in ["list", "retrieve"]:
             queryset.select_related("route", "train").prefetch_related("crew")
 
         return queryset
@@ -76,6 +81,9 @@ class TripViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return TripListSerializer
+
+        if self.action == "retrieve":
+            return TripDetailSerializer
 
         return TripSerializer
 
@@ -87,7 +95,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.action in ["list", "retrieve"]:
             return OrderListSerializer
 
         return OrderSerializer
