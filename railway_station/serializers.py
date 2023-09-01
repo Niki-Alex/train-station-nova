@@ -73,6 +73,11 @@ class TripListSerializer(TripSerializer):
     train = serializers.SlugRelatedField(many=False, read_only=True, slug_field="important_information")
     departure_time = serializers.DateTimeField(format="%Y-%m-%d, %H:%M")
     arrival_time = serializers.DateTimeField(format="%Y-%m-%d, %H:%M")
+    tickets_available = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Trip
+        fields = ("id", "crew", "route", "train", "departure_time", "arrival_time", "tickets_available")
 
 
 class TripToOrderListSerializer(TripListSerializer):
@@ -82,13 +87,6 @@ class TripToOrderListSerializer(TripListSerializer):
     class Meta:
         model = Trip
         fields = ("id", "route", "train", "train_type", "departure_time", "arrival_time")
-
-
-class TripDetailSerializer(TripListSerializer):
-    route = RouteListSerializer(many=False, read_only=True)
-    train = TrainSerializer(many=False, read_only=True)
-    departure_time = serializers.DateTimeField(read_only=True)
-    arrival_time = serializers.DateTimeField(read_only=True)
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -116,6 +114,18 @@ class TicketSeatsSerializer(TicketSerializer):
     class Meta:
         model = Ticket
         fields = ("railcar", "seat")
+
+
+class TripDetailSerializer(TripListSerializer):
+    route = RouteListSerializer(many=False, read_only=True)
+    train = TrainSerializer(many=False, read_only=True)
+    departure_time = serializers.DateTimeField(read_only=True)
+    arrival_time = serializers.DateTimeField(read_only=True)
+    tickets = TicketSeatsSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Trip
+        fields = ("id", "crew", "route", "train", "departure_time", "arrival_time", "tickets")
 
 
 class OrderSerializer(serializers.ModelSerializer):

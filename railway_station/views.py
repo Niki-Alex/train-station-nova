@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from django.db.models import Q
+from django.db.models import Q, F, Count
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
 
 from railway_station.models import (
     Station,
@@ -30,8 +31,10 @@ from railway_station.serializers import (
 )
 
 
-def _params_to_ints(qs):
-    return [int(str_id) for str_id in qs.split(",")]
+class Pagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = "page_size"
+    max_page_size = 100
 
 
 class StationViewSet(viewsets.ModelViewSet):
@@ -128,8 +131,16 @@ class CrewViewSet(viewsets.ModelViewSet):
 
 
 class TripViewSet(viewsets.ModelViewSet):
-    queryset = Trip.objects.all()
+    queryset = (
+        Trip.objects.all()
+        .annotate(
+            tickets_available=F("train__railcar_num")
+            * F("train__seats_in_railcar")
+            - Count("tickets")
+        )
+    )
     serializer_class = TripSerializer
+    pagination_class = Pagination
 
     def get_queryset(self):
         queryset = self.queryset
@@ -167,6 +178,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         "tickets__trip__route", "tickets__trip__train"
     )
     serializer_class = OrderSerializer
+    pagination_class = Pagination
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
