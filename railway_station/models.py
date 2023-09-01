@@ -158,16 +158,29 @@ class Ticket(models.Model):
         Order, on_delete=models.CASCADE, related_name="tickets"
     )
 
+    @staticmethod
+    def validate_railcar_and_seat(
+            railcar: int, num_railcars: int, seat: int, num_seats: int, error_to_raise
+    ):
+        if not (1 <= railcar <= num_railcars):
+            raise error_to_raise(
+                f"Railcar number must be in available "
+                f"range from 1 to {num_railcars}, not {railcar}"
+            )
+        if not (1 <= seat <= num_seats):
+            raise error_to_raise(
+                f"Seat number must be in available range "
+                f"from 1 to {num_seats}, not {seat}"
+            )
+
     def clean(self) -> None:
-        train = self.trip.train
-        if not (1 <= self.railcar <= train.railcar_num):
-            raise ValidationError(
-                f"Railcar number must be in available range from 1 to {train.railcar_num}"
-            )
-        if not (1 <= self.seat <= train.seats_in_railcar):
-            raise ValidationError(
-                f"Seat number must be in available range from 1 to {train.seats_in_railcar}"
-            )
+        Ticket.validate_railcar_and_seat(
+            self.railcar,
+            self.trip.train.railcar_num,
+            self.seat,
+            self.trip.train.seats_in_railcar,
+            ValidationError
+        )
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None

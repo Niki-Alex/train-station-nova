@@ -94,17 +94,13 @@ class TripDetailSerializer(TripListSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         data = super(TicketSerializer, self).validate(attrs)
-        if not (1 <= attrs["railcar"] <= attrs["trip"].train.railcar_num):
-            raise serializers.ValidationError(
-                f"Railcar number must be in available range "
-                f"from 1 to {attrs['trip'].train.railcar_num}, not {attrs['railcar']}"
-            )
-        if not (1 <= attrs["seat"] <= attrs["trip"].train.seats_in_railcar):
-            raise serializers.ValidationError(
-                f"Seat number must be in available range "
-                f"from 1 to {attrs['trip'].train.seats_in_railcar}, not {attrs['seat']}"
-            )
-
+        Ticket.validate_railcar_and_seat(
+            attrs["railcar"],
+            attrs["trip"].train.railcar_num,
+            attrs["seat"],
+            attrs["trip"].train.seats_in_railcar,
+            serializers.ValidationError
+        )
         return data
 
     class Meta:
