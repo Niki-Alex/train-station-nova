@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 
 from railway_station.models import (
     Station,
@@ -55,6 +57,18 @@ class StationViewSet(viewsets.ModelViewSet):
 
         return queryset.distinct()
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "name",
+                type=OpenApiTypes.STR,
+                description="Filter by stations name",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.all().select_related("source", "destination")
@@ -83,6 +97,23 @@ class RouteViewSet(viewsets.ModelViewSet):
             return RouteDetailSerializer
 
         return RouteSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "source",
+                type=OpenApiTypes.STR,
+                description="Filter by sources",
+            ),
+            OpenApiParameter(
+                "destination",
+                type=OpenApiTypes.STR,
+                description="Filter by destinations",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class TrainTypeViewSet(viewsets.ModelViewSet):
@@ -121,6 +152,18 @@ class TrainViewSet(viewsets.ModelViewSet):
             return TrainListSerializer
 
         return TrainSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "train_type",
+                type=OpenApiTypes.STR,
+                description="Filter by train_types",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class CrewViewSet(viewsets.ModelViewSet):
@@ -186,6 +229,24 @@ class TripViewSet(viewsets.ModelViewSet):
             return TripDetailSerializer
 
         return TripSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "route",
+                type=OpenApiTypes.STR,
+                description="Filter by routes",
+            ),
+            OpenApiParameter(
+                "departure_time",
+                type=OpenApiTypes.DATE,
+                description=("Filter by departure date of trip"
+                             " (ex. ?date=2022-10-23)"),
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class OrderViewSet(viewsets.ModelViewSet):
