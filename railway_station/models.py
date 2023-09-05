@@ -10,7 +10,7 @@ from django.utils.text import slugify
 
 
 def validate_departure_time(value):
-    if value < timezone.now():
+    if value.replace(tzinfo=timezone.get_current_timezone()) < timezone.now():
         raise ValidationError("Departure time should be in the future!")
 
 
