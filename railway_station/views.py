@@ -82,7 +82,9 @@ class RouteViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(source__name__icontains=source)
 
         if destination:
-            queryset = queryset.filter(destination__name__icontains=destination)
+            queryset = queryset.filter(
+                destination__name__icontains=destination
+            )
 
         return queryset.distinct()
 

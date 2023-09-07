@@ -27,12 +27,18 @@ class RouteSerializer(serializers.ModelSerializer):
 
 class RouteListSerializer(RouteSerializer):
     source = serializers.CharField(source="source.name", read_only=True)
-    destination = serializers.CharField(source="destination.name", read_only=True)
+    destination = serializers.CharField(
+        source="destination.name", read_only=True
+    )
 
 
 class RouteDetailSerializer(RouteSerializer):
-    source = serializers.SlugRelatedField(many=False, read_only=True, slug_field="name_by_coordinate")
-    destination = serializers.SlugRelatedField(many=False, read_only=True, slug_field="name_by_coordinate")
+    source = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="name_by_coordinate"
+    )
+    destination = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="name_by_coordinate"
+    )
 
 
 class TrainTypeSerializer(serializers.ModelSerializer):
@@ -44,11 +50,21 @@ class TrainTypeSerializer(serializers.ModelSerializer):
 class TrainSerializer(serializers.ModelSerializer):
     class Meta:
         model = Train
-        fields = ("id", "name", "railcar_num", "seats_in_railcar", "train_type", "image", "capacity")
+        fields = (
+            "id",
+            "name",
+            "railcar_num",
+            "seats_in_railcar",
+            "train_type",
+            "image",
+            "capacity"
+        )
 
 
 class TrainListSerializer(TrainSerializer):
-    train_type = serializers.CharField(source="train_type.name", read_only=True)
+    train_type = serializers.CharField(
+        source="train_type.name", read_only=True
+    )
 
 
 class CrewSerializer(serializers.ModelSerializer):
@@ -60,29 +76,61 @@ class CrewSerializer(serializers.ModelSerializer):
 class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
-        fields = ("id", "crew", "route", "train", "departure_time", "arrival_time")
+        fields = (
+            "id",
+            "crew",
+            "route",
+            "train",
+            "departure_time",
+            "arrival_time"
+        )
 
 
 class TripListSerializer(TripSerializer):
-    crew = serializers.SlugRelatedField(many=True, read_only=True, slug_field="full_name")
-    route = serializers.SlugRelatedField(many=False, read_only=True, slug_field="full_route")
-    train = serializers.SlugRelatedField(many=False, read_only=True, slug_field="important_information")
+    crew = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field="full_name"
+    )
+    route = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="full_route"
+    )
+    train = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="important_information"
+    )
     departure_time = serializers.DateTimeField(format="%Y-%m-%d, %H:%M")
     arrival_time = serializers.DateTimeField(format="%Y-%m-%d, %H:%M")
     tickets_available = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Trip
-        fields = ("id", "crew", "route", "train", "departure_time", "arrival_time", "tickets_available")
+        fields = (
+            "id",
+            "crew",
+            "route",
+            "train",
+            "departure_time",
+            "arrival_time",
+            "tickets_available"
+        )
 
 
 class TripToOrderListSerializer(TripListSerializer):
-    train = serializers.SlugRelatedField(many=False, read_only=True, slug_field="name")
-    train_type = serializers.CharField(source="train.train_type.name", read_only=True)
+    train = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="name"
+    )
+    train_type = serializers.CharField(
+        source="train.train_type.name", read_only=True
+    )
 
     class Meta:
         model = Trip
-        fields = ("id", "route", "train", "train_type", "departure_time", "arrival_time")
+        fields = (
+            "id",
+            "route",
+            "train",
+            "train_type",
+            "departure_time",
+            "arrival_time"
+        )
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -121,7 +169,15 @@ class TripDetailSerializer(TripListSerializer):
 
     class Meta:
         model = Trip
-        fields = ("id", "crew", "route", "train", "departure_time", "arrival_time", "tickets")
+        fields = (
+            "id",
+            "crew",
+            "route",
+            "train",
+            "departure_time",
+            "arrival_time",
+            "tickets"
+        )
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -142,4 +198,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderListSerializer(OrderSerializer):
     tickets = TicketListSerializer(many=True, read_only=True)
-    created_at = serializers.DateTimeField(format="%Y-%m-%d, %H:%M", read_only=True)
+    created_at = serializers.DateTimeField(
+        format="%Y-%m-%d, %H:%M", read_only=True
+    )

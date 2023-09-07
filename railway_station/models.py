@@ -51,7 +51,11 @@ class Route(models.Model):
             raise ValidationError("Source and destination cannot be the same")
 
     def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None
     ):
         self.full_clean()
         return super(Route, self).save(
@@ -131,7 +135,11 @@ class Trip(models.Model):
             )
 
     def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None
     ):
         self.full_clean()
         return super(Trip, self).save(
@@ -172,7 +180,11 @@ class Ticket(models.Model):
 
     @staticmethod
     def validate_railcar_and_seat(
-            railcar: int, num_railcars: int, seat: int, num_seats: int, error_to_raise
+            railcar: int,
+            num_railcars: int,
+            seat: int,
+            num_seats: int,
+            error_to_raise
     ):
         if not (1 <= railcar <= num_railcars):
             raise error_to_raise(
@@ -195,7 +207,11 @@ class Ticket(models.Model):
         )
 
     def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None
     ):
         self.full_clean()
         return super(Ticket, self).save(
