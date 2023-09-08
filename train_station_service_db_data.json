@@ -1,0 +1,306 @@
+[
+    {
+      "model": "railway_station.station",
+      "pk": 1,
+      "fields": {"name": "Kiev", "latitude": 1.12, "longitude": 2.15}
+    },
+    {
+      "model": "railway_station.station",
+      "pk": 2,
+      "fields": {"name": "Kharkov", "latitude": 1.85, "longitude": 2.74}
+    },
+    {
+      "model": "railway_station.station",
+      "pk": 3,
+      "fields": {"name": "Lviv", "latitude": 8.45, "longitude": 7.42}
+    },
+    {
+      "model": "railway_station.station",
+      "pk": 4,
+      "fields": {"name": "Paris", "latitude": 74.36, "longitude": 9.45}
+    },
+    {
+      "model": "railway_station.station",
+      "pk": 5,
+      "fields": {"name": "London", "latitude": 79.36, "longitude": 56.41}
+    },
+    {
+      "model": "railway_station.station",
+      "pk": 6,
+      "fields": {"name": "Rim", "latitude": 96.16, "longitude": 82.65}
+    },
+    {
+      "model": "railway_station.station",
+      "pk": 6,
+      "fields": {"name": "Rim", "latitude": 96.16, "longitude": 82.65}
+    },
+    {
+      "model": "railway_station.route",
+      "pk": 1,
+      "fields": {"source": 1, "destination": 2, "distance": 82}
+    },
+    {
+      "model": "railway_station.route",
+      "pk": 2,
+      "fields": {"source": 2, "destination": 3, "distance": 78}
+    },
+    {
+      "model": "railway_station.route",
+      "pk": 3,
+      "fields": {"source": 3, "destination": 4, "distance": 79}
+    },
+    {
+      "model": "railway_station.route",
+      "pk": 4,
+      "fields": {"source": 4, "destination": 5, "distance": 145}
+    },
+    {
+      "model": "railway_station.route",
+      "pk": 5,
+      "fields": {"source": 6, "destination": 5, "distance": 492}
+    },
+    {
+      "model": "railway_station.route",
+      "pk": 6,
+      "fields": {"source": 5, "destination": 2, "distance": 1720}
+    },
+    {
+      "model": "railway_station.traintype", "pk": 1, "fields": {"name": "SV"}
+    },
+    {
+      "model": "railway_station.traintype", "pk": 2, "fields": {"name": "Coupe"}
+    },
+    {
+      "model": "railway_station.traintype", "pk": 3, "fields": {"name": "Economy"}
+    },
+    {
+      "model": "railway_station.traintype", "pk": 4, "fields": {"name": "Luxe"}
+    },
+    {
+      "model": "railway_station.traintype", "pk": 5, "fields": {"name": "Seated"}
+    },
+    {
+      "model": "railway_station.traintype", "pk": 6, "fields": {"name": "Dining"}
+    },
+    {
+      "model": "railway_station.train",
+      "pk": 1,
+      "fields": {
+        "name": "Signature trains 666",
+        "railcar_num": 10,
+        "seats_in_railcar": 30,
+        "train_type": 2,
+        "image": ""
+      }
+    },
+    {
+      "model": "railway_station.train",
+      "pk": 2,
+      "fields": {
+        "name": "Signature trains 100",
+        "railcar_num": 8,
+        "seats_in_railcar": 25,
+        "train_type": 1,
+        "image": ""
+      }
+    },
+    {
+      "model": "railway_station.train",
+      "pk": 3,
+      "fields": {
+        "name": "Signature trains 356",
+        "railcar_num": 12,
+        "seats_in_railcar": 40,
+        "train_type": 5,
+        "image": ""
+      }
+    },
+    {
+      "model": "railway_station.train",
+      "pk": 4,
+      "fields": {
+        "name": "Signature trains 777",
+        "railcar_num": 5,
+        "seats_in_railcar": 20,
+        "train_type": 4,
+        "image": ""
+      }
+    },
+    {
+      "model": "railway_station.train",
+      "pk": 5,
+      "fields": {
+        "name": "Faster trains 789",
+        "railcar_num": 9,
+        "seats_in_railcar": 35,
+        "train_type": 4,
+        "image": ""
+      }
+    },
+    {
+      "model": "railway_station.train",
+      "pk": 6,
+      "fields": {
+        "name": "Faster trains 007",
+        "railcar_num": 7,
+        "seats_in_railcar": 25,
+        "train_type": 6,
+        "image": ""
+      }
+    },
+    {
+      "model": "railway_station.crew",
+      "pk": 1,
+      "fields": {"first_name": "Monica", "last_name": "Beluchi"}
+    },
+    {
+      "model": "railway_station.crew",
+      "pk": 2,
+      "fields": {"first_name": "Sheril", "last_name": "Blossom"}
+    },
+    {
+      "model": "railway_station.crew",
+      "pk": 3,
+      "fields": {"first_name": "Edward", "last_name": "Bill"}
+    },
+    {
+      "model": "railway_station.crew",
+      "pk": 4,
+      "fields": {"first_name": "Pavel", "last_name": "Shulskiy"}
+    },
+    {
+      "model": "railway_station.crew",
+      "pk": 5,
+      "fields": {"first_name": "Evgeniy", "last_name": "Shishkov"}
+    },
+    {
+      "model": "railway_station.crew",
+      "pk": 6,
+      "fields": {"first_name": "Julia", "last_name": "Boyka"}
+    },
+    {
+      "model": "railway_station.trip",
+      "pk": 1,
+      "fields": {
+        "crew": [1, 2, 3],
+        "route": 1,
+        "train": 2,
+        "departure_time": "2025-02-15T21:00:00Z",
+        "arrival_time": "2025-02-17T21:00:00Z"
+      }
+    },
+    {
+      "model": "railway_station.trip",
+      "pk": 2,
+      "fields": {
+        "crew": [4, 3, 6],
+        "route": 6,
+        "train": 5,
+        "departure_time": "2025-03-17T21:00:00Z",
+        "arrival_time": "2025-03-18T21:00:00Z"
+      }
+    },
+    {
+      "model": "railway_station.trip",
+      "pk": 3,
+      "fields": {
+        "crew": [6, 5],
+        "route": 5,
+        "train": 3,
+        "departure_time": "2025-05-01T21:00:00Z",
+        "arrival_time": "2025-05-05T21:00:00Z"
+      }
+    },
+    {
+      "model": "railway_station.trip",
+      "pk": 4,
+      "fields": {
+        "crew": [5, 3, 1],
+        "route": 4,
+        "train": 6,
+        "departure_time": "2025-07-05T21:00:00Z",
+        "arrival_time": "2025-07-08T21:00:00Z"
+      }
+    },
+    {
+      "model": "railway_station.trip",
+      "pk": 5,
+      "fields": {
+        "crew": [2, 6, 3],
+        "route": 3,
+        "train": 1,
+        "departure_time": "2025-08-22T21:00:00Z",
+        "arrival_time": "2025-08-23T21:00:00Z"
+      }
+    },
+    {
+      "model": "railway_station.trip",
+      "pk": 6,
+      "fields": {
+        "crew": [6, 2],
+        "route": 3,
+        "train": 4,
+        "departure_time": "2025-11-20T21:00:00Z",
+        "arrival_time": "2025-11-22T21:00:00Z"
+      }
+    },
+    {
+        "model": "railway_station.order",
+        "pk": 1,
+        "fields": {"created_at": "2023-09-05T16:00:54.299Z", "user": 3}
+    },
+    {
+        "model": "railway_station.order",
+        "pk": 2,
+        "fields": {"created_at": "2023-09-05T17:32:54.299Z", "user": 4}
+    },
+    {
+        "model": "railway_station.ticket",
+        "pk": 1,
+        "fields": {"railcar": 5, "seat": 10, "trip": 2, "order": 1}
+    },
+    {
+        "model": "railway_station.ticket",
+        "pk": 2,
+        "fields": {"railcar": 5, "seat": 11, "trip": 2, "order": 1}
+    },
+    {
+        "model": "railway_station.ticket",
+        "pk": 3,
+        "fields": {"railcar": 2, "seat": 5, "trip": 5, "order": 2}
+    },
+    {
+        "model": "user.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$xtlXvXSpWu8qPuTveo1F4a$f3hD8IdstyD2T8RwKeMK1smPHHlA+/q8oga2SgwmHSo=",
+            "last_login": "2023-09-05T21:58:34.334Z",
+            "is_superuser": true,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2023-09-04T22:10:11.780Z",
+            "email": "admin@i.ua",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$DOCce1dvmM66GnDrLbRQuX$XQwCA/TYpNZQuay0oSzEVX/jVHqAKp0hsVCBp0uBn3A=",
+            "last_login": null,
+            "is_superuser": false,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-09-04T23:10:11.780Z",
+            "email": "user1@test.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]
